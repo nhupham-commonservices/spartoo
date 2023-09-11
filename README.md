@@ -18,7 +18,7 @@ This API allows you to :
 It is recommended to use [composer](https://getcomposer.org/) to install the package :
 
 ```
-$ composer require debuss-a/spartoo 
+$ composer require nhupham-commonservices/spartoo 
 ```
 
 **PHP 7.2 or newer is required.**
