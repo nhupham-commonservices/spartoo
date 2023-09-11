@@ -1,12 +1,12 @@
 {
-  "name": "debuss-a/spartoo",
+  "name": "nhupham-commonservices/spartoo",
   "description": "A wrapper for the Spartoo API.",
   "minimum-stability": "stable",
   "license": "MIT",
   "authors": [
     {
-      "name": "Alexandre DEBUSSCHÈRE",
-      "email": "zizilex@gmail.com"
+      "name": "Nhu Pham",
+      "email": "nhu@common-services.com"
     }
   ],
   "require": {
