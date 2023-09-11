@@ -1,4 +1,4 @@
-# Spartoo API
+# Spartoo API (Fork a repo)
 
 Implementation of the [Spartoo](https://spartoo.com) API.  
 This API allows you to :
