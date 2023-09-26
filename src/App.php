@@ -200,17 +200,24 @@ class App
      * @param DateTime|null $date
      * @param string|null $oID
      * @param int|null $status
+     * @param string|null $country
      * @return SimpleXMLElement
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
-    public function exportOrders(?DateTime $date = null, ?string $oID = null, ?int $status = null)
+    public function exportOrders(?DateTime $date = null, ?string $oID = null, ?int $status = null, ?string $country = null)
     {
         if (!$date && !$oID) {
             throw InvalidArgumentException::missingArgument(['date (DateTime)', 'oID (string)']);
         }
 
+        if ($country) {
+            $url = str_replace('[iso]', $country, 'https://sws.spartoo.[iso]/mp/xml_export_orders.php');
+        } else {
+            $url = 'https://sws.spartoo.com/mp/xml_export_orders.php';
+        }
+
         return $this->post(
-            'https://sws.spartoo.com/mp/xml_export_orders.php',
+            $url,
             array_filter([
                 'partenaire' => $this->partner,
                 'date' => $date ? $date->format('Y-m-d:H:i:s') : null,
