@@ -80,7 +80,7 @@ class Info implements XMLTransformerInterface
     {
         $info = $document->createElement('info');
 
-        foreach (array_filter(get_object_vars($this)) as $property => $value) {
+        foreach (get_object_vars($this) as $property => $value) {
             $info->appendChild($document->createElement($property, $value));
         }
 
