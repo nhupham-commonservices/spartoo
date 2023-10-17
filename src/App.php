@@ -231,13 +231,19 @@ class App
      * @param string $oID
      * @param int $status
      * @param string|null $tracking_number
+     * @param string|null $country
      * @return SimpleXMLElement
      * @throws Exception
      */
-    public function majOrders(string $oID, int $status, ?string $tracking_number = null)
+    public function majOrders(string $oID, int $status, ?string $tracking_number = null, ?string $country = null)
     {
+        if ($country) {
+            $url = str_replace('[iso]', $country, 'https://sws.spartoo.[iso]/mp/xml_maj_orders.php');
+        } else {
+            $url = 'https://sws.spartoo.com/mp/xml_maj_orders.php';
+        }
         return $this->post(
-            'https://sws.spartoo.com/mp/xml_maj_orders.php',
+            $url,
             array_filter([
                 'partenaire' => $this->partner,
                 'oID' => $oID,
