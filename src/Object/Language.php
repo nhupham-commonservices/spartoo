@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Spartoo API
  *
@@ -10,6 +11,7 @@
 namespace Spartoo\Object;
 
 use DOMDocument;
+use Exception;
 use Spartoo\Exception\InvalidArgumentException;
 use Spartoo\Interfaces\XMLTransformerInterface;
 use Spartoo\Provisionning;
@@ -189,7 +191,11 @@ class Language implements XMLTransformerInterface
                 continue;
             }
 
-            $language->appendChild($document->createElement($property, $value));
+            try {
+                $language->appendChild($document->createElement($property, $value));
+            } catch (Exception $exception) {
+                continue;
+            }
         }
 
         return $language;
