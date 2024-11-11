@@ -191,10 +191,12 @@ class Language implements XMLTransformerInterface
                 continue;
             }
 
-            try {
-                $language->appendChild($document->createElement($property, $value));
-            } catch (Exception $exception) {
-                continue;
+            if (!empty($value)) {
+                try {
+                    $language->appendChild($document->createElement($property, $value));
+                } catch (Exception $exception) {
+                    continue;
+                }
             }
         }
 

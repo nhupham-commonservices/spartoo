@@ -11,6 +11,7 @@ namespace Spartoo\Object;
 
 use DOMDocument;
 use DOMElement;
+use DOMException;
 use Spartoo\Exception\InvalidArgumentException;
 use Spartoo\Exception\XMLFileException;
 use Spartoo\Interfaces\XMLTransformerInterface;
@@ -212,7 +213,7 @@ class Product implements XMLTransformerInterface
      */
     public function setColorId(int $color_id): Product
     {
-        if (!in_array($color_id, array_column(Provisionning::getInstance()->getColors(), 'code'))) {
+        if (!empty($color_id) && !in_array($color_id, array_column(Provisionning::getInstance()->getColors(), 'code'))) {
             InvalidArgumentException::notSupportedColorId($color_id);
         }
 
@@ -517,6 +518,7 @@ class Product implements XMLTransformerInterface
     /**
      * @param DOMDocument $document
      * @return DOMElement
+     * @throws DOMException
      */
     public function toXML(DOMDocument $document)
     {
@@ -551,7 +553,7 @@ class Product implements XMLTransformerInterface
                             break;
                         }
 
-                        $name = 'url'.$key;
+                        $name = 'url' . $key;
                         if ($property == 'selections') {
                             $name = 'selection';
                         }
@@ -564,12 +566,16 @@ class Product implements XMLTransformerInterface
                 case 'manufacturers_name':
                 case 'product_description':
                 case 'product_color':
-                    $element = $document->createElement($property, '');
-                    $element->appendChild($document->createCDATASection($value));
+                    if (!empty($value)) {
+                        $element = $document->createElement($property, '');
+                        $element->appendChild($document->createCDATASection($value));
+                    }
                     break;
 
                 default:
-                    $element = $document->createElement($property, $value);
+                    if (!empty($value)) {
+                        $element = $document->createElement($property, $value);
+                    }
                     break;
             }
 
