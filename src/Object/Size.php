@@ -133,12 +133,28 @@ class Size implements XMLTransformerInterface
     /**
      * @inheritDoc
      */
-    public function toXML(DOMDocument $document)
+    /*public function toXML(DOMDocument $document)
     {
         $size = $document->createElement('size');
 
         foreach (array_filter(get_object_vars($this)) as $property => $value) {
             $size->appendChild($document->createElement($property, $value));
+        }
+
+        return $size;
+    }*/
+    public function toXML(DOMDocument $document)
+    {
+        $size = $document->createElement('size');
+
+        foreach (array_filter(get_object_vars($this)) as $property => $value) {
+            try {
+                // Escape the value to prevent invalid characters
+                $escapedValue = htmlspecialchars($value, ENT_XML1 | ENT_QUOTES, 'UTF-8');
+                $size->appendChild($document->createElement($property, $escapedValue));
+            } catch (DOMException $e) {
+                continue;
+            }
         }
 
         return $size;
