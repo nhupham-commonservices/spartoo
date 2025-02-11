@@ -10,6 +10,7 @@
 namespace Spartoo\Object;
 
 use DOMDocument;
+use DOMException;
 use Spartoo\Exception\InvalidArgumentException;
 use Spartoo\Interfaces\XMLTransformerInterface;
 use Spartoo\Provisionning;
