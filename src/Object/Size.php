@@ -12,6 +12,7 @@ namespace Spartoo\Object;
 use DOMDocument;
 use DOMException;
 use Spartoo\Exception\InvalidArgumentException;
+use Spartoo\Exception\XMLFileException;
 use Spartoo\Interfaces\XMLTransformerInterface;
 use Spartoo\Provisionning;
 
@@ -35,22 +36,27 @@ class Size implements XMLTransformerInterface
     /** @var string */
     protected $ean;
 
+    /** @var float */
+    protected $product_price;
+
     /**
      * Size constructor.
      * @param string $size_name
      * @param int $size_quantity
      * @param string $size_reference
      * @param null|string $ean
+     * @param float|null $product_price
      * @throws InvalidArgumentException
-     * @throws \Spartoo\Exception\XMLFileException
+     * @throws XMLFileException
      */
-    public function __construct(string $size_name, int $size_quantity, string $size_reference, ?string $ean = null)
+    public function __construct(string $size_name, int $size_quantity, string $size_reference, ?string $ean = null, ?float $product_price = null)
     {
         $this->setSizeName($size_name);
 
         $this->size_quantity = $size_quantity;
         $this->size_reference = $size_reference;
         $this->ean = $ean;
+        $this->product_price = $product_price;
     }
 
     /**
@@ -132,18 +138,24 @@ class Size implements XMLTransformerInterface
     }
 
     /**
+     * @return float|null
+     */
+    public function getProductPrice(): ?float
+    {
+        return $this->product_price;
+    }
+
+    /**
+     * @param float|null $product_price
+     */
+    public function setProductPrice(?float $product_price): void
+    {
+        $this->product_price = $product_price;
+    }
+
+    /**
      * @inheritDoc
      */
-    /*public function toXML(DOMDocument $document)
-    {
-        $size = $document->createElement('size');
-
-        foreach (array_filter(get_object_vars($this)) as $property => $value) {
-            $size->appendChild($document->createElement($property, $value));
-        }
-
-        return $size;
-    }*/
     public function toXML(DOMDocument $document)
     {
         $size = $document->createElement('size');

@@ -9,6 +9,8 @@
 
 namespace Spartoo;
 
+use Spartoo\Exception\InvalidArgumentException;
+use Spartoo\Exception\XMLFileException;
 use Spartoo\Object\Discount;
 use Spartoo\Object\Info;
 use Spartoo\Object\Language;
@@ -72,24 +74,25 @@ class Factory
      * @param int $quantity
      * @param string $reference
      * @param string|null $ean
+     * @param float|null $product_price
      * @return Size
-     * @throws Exception\InvalidArgumentException
-     * @throws Exception\XMLFileException
+     * @throws InvalidArgumentException
+     * @throws XMLFileException
      */
-    public static function getSize(string $name, int $quantity, string $reference, ?string $ean = null)
+    public static function getSize(string $name, int $quantity, string $reference, ?string $ean = null, ?float $product_price = null)
     {
-        return new Size($name, $quantity, $reference, $ean);
+        return new Size($name, $quantity, $reference, $ean, $product_price);
     }
 
     /**
-     * @param int $startdate
-     * @param int $stopdate
+     * @param int|null $startdate
+     * @param int|null $stopdate
      * @param float|null $price
      * @param int|null $rate
      * @param bool $sales
      * @return Discount
      */
-    public static function getDiscount(int $startdate, int $stopdate, ?float $price, ?int $rate, bool $sales = false)
+    public static function getDiscount(?int $startdate, ?int $stopdate, ?float $price, ?int $rate, bool $sales = false)
     {
         return new Discount($startdate, $stopdate, $price, $rate, $sales);
     }

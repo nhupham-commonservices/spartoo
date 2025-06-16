@@ -37,13 +37,13 @@ class Discount implements XMLTransformerInterface
 
     /**
      * Discount constructor.
-     * @param int $startdate
-     * @param int $stopdate
-     * @param float $price_discount
-     * @param int $rate
+     * @param int|null $startdate
+     * @param int|null $stopdate
+     * @param float|null $price_discount
+     * @param int|null $rate
      * @param bool $sales
      */
-    public function __construct(int $startdate, int $stopdate, ?float $price_discount = null, ?int $rate = null, bool $sales = false)
+    public function __construct(?int $startdate, ?int $stopdate, ?float $price_discount = null, ?int $rate = null, bool $sales = false)
     {
         $this->startdate = $startdate;
         $this->stopdate = $stopdate;
@@ -150,7 +150,9 @@ class Discount implements XMLTransformerInterface
         $discount = $document->createElement('discount');
 
         foreach (array_filter(get_object_vars($this)) as $property => $value) {
-            $discount->appendChild($document->createElement($property, $value));
+            if ($value !== null) {
+                $discount->appendChild($document->createElement($property, $value));
+            }
         }
 
         return $discount;
