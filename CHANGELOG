@@ -1,2 +1,6 @@
 1.0.6
 Updated: Remove color_id and product_color from the required list.
+
+
+1.0.7
+Updated: Discount start/end date can be null
