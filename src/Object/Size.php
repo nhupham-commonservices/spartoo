@@ -160,19 +160,23 @@ class Size implements XMLTransformerInterface
     {
         $size = $document->createElement('size');
 
-
         foreach (array_filter(get_object_vars($this), function ($value) {
             return $value !== null;
         }) as $property => $value) {
             try {
-                // Escape the value to prevent invalid characters
-                $escapedValue = htmlspecialchars($value, ENT_XML1 | ENT_QUOTES, 'UTF-8');
+                $escapedValue = is_string($value)
+                    ? htmlspecialchars($value, ENT_XML1 | ENT_QUOTES, 'UTF-8')
+                    : $value;
+
+                if ($escapedValue === false) {
+                    throw new DOMException("Invalid value for XML: $value");
+                }
+
                 $size->appendChild($document->createElement($property, $escapedValue));
             } catch (DOMException $e) {
                 continue;
             }
         }
-
         return $size;
     }
 }
